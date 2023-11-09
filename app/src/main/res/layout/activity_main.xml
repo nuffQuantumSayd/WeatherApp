@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/searchmag"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-    android:background="@drawable/clouds_background">
+    tools:context=".MainActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -16,21 +16,135 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/clouds_background"
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="24dp">
 
-        <TextView
-            android:id="@+id/hello"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello World!"
+        <ImageView
+            android:id="@+id/day_one_weather_icon"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="76dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/day_two_weather_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toStartOf="@+id/day_three_weather_icon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/day_three_weather_icon" />
+
+        <ImageView
+            android:id="@+id/day_three_weather_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toStartOf="@+id/day_four_weather_icon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/day_two_weather_icon"
+            app:layout_constraintTop_toTopOf="@+id/day_four_weather_icon" />
+
+        <ImageView
+            android:id="@+id/day_four_weather_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toStartOf="@+id/day_five_weather_icon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/day_three_weather_icon"
+            app:layout_constraintTop_toTopOf="@+id/day_five_weather_icon" />
+
+        <ImageView
+            android:id="@+id/day_five_weather_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toStartOf="@+id/day_six_weather_icon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/day_four_weather_icon"
+            app:layout_constraintTop_toTopOf="@+id/day_six_weather_icon" />
+
+        <ImageView
+            android:id="@+id/day_six_weather_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.47"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/day_five_weather_icon"
+            app:layout_constraintTop_toBottomOf="@+id/pressure_icon_image"
+            app:layout_constraintVertical_bias="0.203" />
+
+        <ImageView
+            android:id="@+id/pressure_icon_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/pressure"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/humidity_icon_image"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.172" />
+            app:layout_constraintVertical_bias="0.702" />
 
+        <ImageView
+            android:id="@+id/humidity_icon_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/humidity"
+            app:layout_constraintEnd_toStartOf="@+id/wind_icon_image"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/pressure_icon_image"
+            app:layout_constraintTop_toTopOf="@+id/pressure_icon_image" />
 
+        <ImageView
+            android:id="@+id/wind_icon_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/wind"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/humidity_icon_image"
+            app:layout_constraintTop_toTopOf="@+id/humidity_icon_image" />
+
+        <TextView
+            android:id="@+id/day_one_description"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="weather description"
+            app:layout_constraintStart_toStartOf="@+id/day_one_weather_icon"
+            app:layout_constraintTop_toBottomOf="@+id/day_one_weather_icon" />
+
+        <TextView
+            android:id="@+id/day_one_temp"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="temp
+"
+            app:layout_constraintStart_toStartOf="@+id/day_one_description"
+            app:layout_constraintTop_toBottomOf="@+id/day_one_description" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="F"
+            app:layout_constraintEnd_toEndOf="@+id/day_one_description"
+            app:layout_constraintTop_toBottomOf="@+id/day_one_description" />
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_bar"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@drawable/searchmag"
+            app:defaultQueryHint="Enter a city"
+            app:layout_constraintBottom_toTopOf="@+id/day_one_weather_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
