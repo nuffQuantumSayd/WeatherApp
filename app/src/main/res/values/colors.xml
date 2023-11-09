@@ -2,4 +2,20 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="clearskyblue">#00BFFF</color>
+    <color name="Yellow">#FFFF00</color>
+    <color name="CloudyGray">#A9A9A9</color>
+    <color name="RainyBlue">#4682B4</color>
+    <color name="FoggyWhite">#F5F5F5</color>
+    <color name="StormyGray">#808080</color>
+    <color name="SnowWhite">#FFFFFF</color>
+    <color name="SunnyOrange">#FFA500</color>
+    <color name="MistyGreen">#98FB98</color>
+    <color name="ThunderstormPurple">#800080</color>
+
+
+
+
+
+
 </resources>
