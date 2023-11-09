@@ -3,6 +3,7 @@ package com.nqs.weatherapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.SearchView
 import com.google.android.material.appbar.MaterialToolbar
 import com.nqs.weatherapp.databinding.ActivityMainBinding
 import com.squareup.picasso.Picasso
@@ -25,8 +26,27 @@ class MainActivity : AppCompatActivity() {
 
         //fetch current weather data
         fetchCurrentWeatherData("puyallup")
+
+        //use search bar
+        SearchCity()
     }
 
+    private fun SearchCity(){
+        val searchView = binding.searchBar
+        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null){
+                    fetchCurrentWeatherData(query)
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+
+        })
+    }
     private fun fetchCurrentWeatherData(cityName:String) {
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
