@@ -204,7 +204,7 @@ class MainActivity : AppCompatActivity() {
 
                     //bind the data with the views
                     binding.dayOneDescription.text = weatherDescription
-                    binding.dayOneTemp.text = "Temp: $temperature"
+                    binding.dayOneTemp.text = temperature
                     binding.pressureText.text = pressure
                     binding.humidityText.text = humidity
                     binding.windText.text = wind
