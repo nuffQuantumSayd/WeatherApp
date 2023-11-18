@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             .baseUrl("https://api.openweathermap.org/data/2.5/")
             .build().create(CurrentWeatherApi::class.java)
 
-        val response = retrofit.getCurrentWeatherData(cityName, "91a0c7771716b8912caf89842ed9b946", "imperial")
+        val response = retrofit.getCurrentWeatherData(cityName, "API KEY", "imperial")
         response.enqueue(object : Callback<CurrentWeather>{
             override fun onResponse(
                 call: Call<CurrentWeather>,
