@@ -4,11 +4,11 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface CurrentWeatherApi {
-    @GET("weather")
-    fun getCurrentWeatherData(
+interface FiveDayForecastApi {
+    @GET("forecast")
+    fun getFiveDayForecastData(
         @Query("q") city:String,
         @Query("appid") appid:String,
         @Query("units") units:String
-    ) : Call<CurrentWeather>
+    ) : Call<FiveDayForecast>
 }
