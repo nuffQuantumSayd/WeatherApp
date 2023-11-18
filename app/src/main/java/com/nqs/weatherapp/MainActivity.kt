@@ -26,9 +26,35 @@ class MainActivity : AppCompatActivity() {
 
         //fetch current weather data
         fetchCurrentWeatherData("puyallup")
+        fetchFiveDayForecastData()
 
         //use search bar
         SearchCity()
+    }
+
+    private fun fetchFiveDayForecastData() {
+        val retrofit = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl("https://api.openweathermap.org/data/2.5/")
+            .build().create(FiveDayForecastApi::class.java)
+
+        val response = retrofit.getFiveDayForecastData("puyallup", "91a0c7771716b8912caf89842ed9b946", "imperial")
+        response.enqueue(object : Callback<FiveDayForecast>{
+            override fun onResponse(
+                call: Call<FiveDayForecast>,
+                response: Response<FiveDayForecast>
+            ) {
+                val responseBody = response.body()
+                if (response.isSuccessful && responseBody != null) {
+
+                }
+            }
+
+            override fun onFailure(call: Call<FiveDayForecast>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     private fun SearchCity(){
@@ -53,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             .baseUrl("https://api.openweathermap.org/data/2.5/")
             .build().create(CurrentWeatherApi::class.java)
 
-        val response = retrofit.getCurrentWeatherData(cityName, "API KEY", "imperial")
+        val response = retrofit.getCurrentWeatherData(cityName, "91a0c7771716b8912caf89842ed9b946", "imperial")
         response.enqueue(object : Callback<CurrentWeather>{
             override fun onResponse(
                 call: Call<CurrentWeather>,
