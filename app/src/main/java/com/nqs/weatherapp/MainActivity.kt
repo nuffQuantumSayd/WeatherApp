@@ -2,8 +2,8 @@ package com.nqs.weatherapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
-import android.widget.SearchView
 import com.google.android.material.appbar.MaterialToolbar
 import com.nqs.weatherapp.databinding.ActivityMainBinding
 import com.squareup.picasso.Picasso
@@ -12,7 +12,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -20,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+    var currentSettings = CurrentSetting("Puyallup", "imperial")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -27,20 +27,41 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         //fetch current weather data
-        fetchCurrentWeatherData("puyallup")
-        fetchFiveDayForecastData("puyallup")
+        fetchCurrentWeatherData(currentSettings.cityName, currentSettings.unitOfMeasure)
+        fetchFiveDayForecastData(currentSettings.cityName, currentSettings.unitOfMeasure)
 
         //use search bar
         SearchCity()
+
+        //On click metric change
+        changeTempUnit()
     }
 
-    private fun fetchFiveDayForecastData(cityName:String) {
+    private fun changeTempUnit() {
+        val temperatureButton = findViewById<Button>(R.id.button)
+        temperatureButton.setOnClickListener {
+            if (temperatureButton.text == "F"){
+                currentSettings.unitOfMeasure = "metric"
+                fetchCurrentWeatherData(currentSettings.cityName, currentSettings.unitOfMeasure)
+                fetchFiveDayForecastData(currentSettings.cityName, currentSettings.unitOfMeasure)
+                temperatureButton.text = "C"
+            }
+            else {
+                currentSettings.unitOfMeasure = "imperial"
+                fetchCurrentWeatherData(currentSettings.cityName, currentSettings.unitOfMeasure)
+                fetchFiveDayForecastData(currentSettings.cityName, currentSettings.unitOfMeasure)
+                temperatureButton.text = "F"
+            }
+        }
+    }
+
+    private fun fetchFiveDayForecastData(cityName:String, unit:String) {
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl("https://api.openweathermap.org/data/2.5/")
             .build().create(FiveDayForecastApi::class.java)
 
-        val response = retrofit.getFiveDayForecastData(cityName, "91a0c7771716b8912caf89842ed9b946", "imperial")
+        val response = retrofit.getFiveDayForecastData(cityName, "91a0c7771716b8912caf89842ed9b946", unit)
         response.enqueue(object : Callback<FiveDayForecast>{
             override fun onResponse(
                 call: Call<FiveDayForecast>,
@@ -53,18 +74,18 @@ class MainActivity : AppCompatActivity() {
                     //insert code here
                     val simpleDateFormat = SimpleDateFormat("yyyy/M/dd")
                     val currentDate = simpleDateFormat.format(Date())
-
+                    val noon = "12:00:00"
 
                     //check list to find the next day one
                     for (i in lastIndex..<responseBody.list.size){
-                        if(responseBody.list[i].dt_txt.contains("$currentDate 12:00:00")){
+                        if(responseBody.list[i].dt_txt.contains("$currentDate $noon")){
                             lastIndex = i + 1
                             break
                         }
                     }
                     //day two
                     for (i in lastIndex..<responseBody.list.size) {
-                        if (responseBody.list[i].dt_txt.contains("12:00:00")) {
+                        if (responseBody.list[i].dt_txt.contains(noon)) {
                             //get the icon code
                             val dayTwoWeatherIcon = responseBody.list[i].weather[0].icon
                             //create the url with the icon code
@@ -81,7 +102,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     //day three
                     for (i in lastIndex..<responseBody.list.size) {
-                        if (responseBody.list[i].dt_txt.contains("12:00:00")) {
+                        if (responseBody.list[i].dt_txt.contains(noon)) {
                             //get the icon code
                             val dayThreeWeatherIcon = responseBody.list[i].weather[0].icon
                             //create the url with the icon code
@@ -98,7 +119,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     //day four
                     for (i in lastIndex..<responseBody.list.size) {
-                        if (responseBody.list[i].dt_txt.contains("12:00:00")) {
+                        if (responseBody.list[i].dt_txt.contains(noon)) {
                             //get the icon code
                             val dayFourWeatherIcon = responseBody.list[i].weather[0].icon
                             //create the url with the icon code
@@ -115,7 +136,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     //day five
                     for (i in lastIndex..<responseBody.list.size) {
-                        if (responseBody.list[i].dt_txt.contains("12:00:00")) {
+                        if (responseBody.list[i].dt_txt.contains(noon)) {
                             //get the icon code
                             val dayFiveWeatherIcon = responseBody.list[i].weather[0].icon
                             //create the url with the icon code
@@ -132,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     //day six
                     for (i in lastIndex..<responseBody.list.size) {
-                        if (responseBody.list[i].dt_txt.contains("12:00:00")) {
+                        if (responseBody.list[i].dt_txt.contains(noon)) {
                             //get the icon code
                             val daySixWeatherIcon = responseBody.list[i].weather[0].icon
                             //create the url with the icon code
@@ -162,7 +183,9 @@ class MainActivity : AppCompatActivity() {
         searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null){
-                    fetchCurrentWeatherData(query)
+                    fetchCurrentWeatherData(query, currentSettings.unitOfMeasure)
+                    fetchFiveDayForecastData(query, currentSettings.unitOfMeasure)
+                    currentSettings.cityName = query
                 }
                 return true
             }
@@ -173,13 +196,13 @@ class MainActivity : AppCompatActivity() {
 
         })
     }
-    private fun fetchCurrentWeatherData(cityName:String) {
+    private fun fetchCurrentWeatherData(cityName:String, unit: String) {
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl("https://api.openweathermap.org/data/2.5/")
             .build().create(CurrentWeatherApi::class.java)
 
-        val response = retrofit.getCurrentWeatherData(cityName, "91a0c7771716b8912caf89842ed9b946", "imperial")
+        val response = retrofit.getCurrentWeatherData(cityName, "91a0c7771716b8912caf89842ed9b946", unit)
         response.enqueue(object : Callback<CurrentWeather>{
             override fun onResponse(
                 call: Call<CurrentWeather>,
@@ -187,6 +210,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 val responseBody = response.body()
                 if (response.isSuccessful && responseBody != null){
+
                     //get data from api
                     val temperature = responseBody.main.temp.toString()
                     val weatherDescription = responseBody.weather[0].description
