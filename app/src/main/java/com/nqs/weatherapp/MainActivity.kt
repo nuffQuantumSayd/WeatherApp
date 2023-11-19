@@ -55,6 +55,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setBackground(iconCode:String){
+        var activityMain = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.main_view)
+
+        if (iconCode.contains("02") || iconCode.contains("03") || iconCode.contains("04")){
+            activityMain.setBackgroundResource(R.drawable.clouds_background)
+        }
+        else if (iconCode.contains("01")){
+            activityMain.setBackgroundResource(R.drawable.sunny_background)
+        }
+        else if (iconCode.contains("09") || iconCode.contains("10") || iconCode.contains("11")){
+            activityMain.setBackgroundResource(R.drawable.rain_background)
+        }
+        else if (iconCode.contains("13")){
+            activityMain.setBackgroundResource(R.drawable.snow_background)
+        }
+        else{
+            activityMain.setBackgroundResource(R.drawable.mist_background)
+        }
+
+    }
     private fun fetchFiveDayForecastData(cityName:String, unit:String) {
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
@@ -222,6 +242,9 @@ class MainActivity : AppCompatActivity() {
                     val iconCode = responseBody.weather[0].icon
                     val url = "https://openweathermap.org/img/wn/$iconCode@2x.png"
                     val imageView = findViewById<ImageView>(R.id.day_one_weather_icon)
+
+                    //set the background according to weather
+                    setBackground("10d")
 
                     //display the icon
                     Picasso.get().load(url).into(imageView)

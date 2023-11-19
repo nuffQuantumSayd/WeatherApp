@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/searchmag"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    >
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -19,7 +20,8 @@
         android:layout_height="match_parent"
         android:background="@drawable/clouds_background"
         tools:layout_editor_absoluteX="15dp"
-        tools:layout_editor_absoluteY="24dp">
+        tools:layout_editor_absoluteY="24dp"
+        android:id="@+id/main_view">
 
         <ImageView
             android:id="@+id/day_one_weather_icon"
