@@ -109,9 +109,10 @@ class MainActivity : AppCompatActivity() {
                             //get the icon code
                             val dayTwoWeatherIcon = responseBody.list[i].weather[0].icon
                             //create the url with the icon code
-                            val url = "https://openweathermap.org/img/wn/$dayTwoWeatherIcon@2x.png"
+//                            val url = "https://openweathermap.org/img/wn/$dayTwoWeatherIcon@2x.png"
                             val imageView = findViewById<ImageView>(R.id.day_two_weather_icon)
-                            Picasso.get().load(url).into(imageView)
+//                            Picasso.get().load(url).into(imageView)
+                            setIconImage(dayTwoWeatherIcon, imageView, false)
 
                             //load the temp
                             val dayTwoTemp = responseBody.list[i].main.temp.toString()
@@ -126,9 +127,11 @@ class MainActivity : AppCompatActivity() {
                             //get the icon code
                             val dayThreeWeatherIcon = responseBody.list[i].weather[0].icon
                             //create the url with the icon code
-                            val url = "https://openweathermap.org/img/wn/$dayThreeWeatherIcon@2x.png"
+//                            val url = "https://openweathermap.org/img/wn/$dayThreeWeatherIcon@2x.png"
                             val imageView = findViewById<ImageView>(R.id.day_three_weather_icon)
-                            Picasso.get().load(url).into(imageView)
+//                            Picasso.get().load(url).into(imageView)
+
+                            setIconImage(dayThreeWeatherIcon, imageView, false)
 
                             //load the temp
                             val dayThreeTemp = responseBody.list[i].main.temp.toString()
@@ -143,9 +146,11 @@ class MainActivity : AppCompatActivity() {
                             //get the icon code
                             val dayFourWeatherIcon = responseBody.list[i].weather[0].icon
                             //create the url with the icon code
-                            val url = "https://openweathermap.org/img/wn/$dayFourWeatherIcon@2x.png"
+//                            val url = "https://openweathermap.org/img/wn/$dayFourWeatherIcon@2x.png"
                             val imageView = findViewById<ImageView>(R.id.day_four_weather_icon)
-                            Picasso.get().load(url).into(imageView)
+//                            Picasso.get().load(url).into(imageView)
+
+                            setIconImage(dayFourWeatherIcon, imageView, false)
 
                             //load the temp
                             val dayFourTemp = responseBody.list[i].main.temp.toString()
@@ -160,9 +165,11 @@ class MainActivity : AppCompatActivity() {
                             //get the icon code
                             val dayFiveWeatherIcon = responseBody.list[i].weather[0].icon
                             //create the url with the icon code
-                            val url = "https://openweathermap.org/img/wn/$dayFiveWeatherIcon@2x.png"
+//                            val url = "https://openweathermap.org/img/wn/$dayFiveWeatherIcon@2x.png"
                             val imageView = findViewById<ImageView>(R.id.day_five_weather_icon)
-                            Picasso.get().load(url).into(imageView)
+//                            Picasso.get().load(url).into(imageView)
+
+                            setIconImage(dayFiveWeatherIcon, imageView, false)
 
                             //load the temp
                             val dayFiveTemp = responseBody.list[i].main.temp.toString()
@@ -177,9 +184,11 @@ class MainActivity : AppCompatActivity() {
                             //get the icon code
                             val daySixWeatherIcon = responseBody.list[i].weather[0].icon
                             //create the url with the icon code
-                            val url = "https://openweathermap.org/img/wn/$daySixWeatherIcon@2x.png"
+//                            val url = "https://openweathermap.org/img/wn/$daySixWeatherIcon@2x.png"
                             val imageView = findViewById<ImageView>(R.id.day_six_weather_icon)
-                            Picasso.get().load(url).into(imageView)
+//                            Picasso.get().load(url).into(imageView)
+
+                            setIconImage(daySixWeatherIcon, imageView, false)
 
                             //load the temp
                             val daySixTemp = responseBody.list[i].main.temp.toString()
@@ -240,14 +249,16 @@ class MainActivity : AppCompatActivity() {
 
                     //get icon from api
                     val iconCode = responseBody.weather[0].icon
-                    val url = "https://openweathermap.org/img/wn/$iconCode@2x.png"
+                    //set custom icon code
+                    //val url = "https://openweathermap.org/img/wn/$iconCode@2x.png"
+                    //val imageView = findViewById<ImageView>(R.id.day_one_weather_icon)
                     val imageView = findViewById<ImageView>(R.id.day_one_weather_icon)
-
+                    setIconImage(iconCode, imageView, true)
                     //set the background according to weather
-                    setBackground("10d")
+                    setBackground(iconCode)
 
                     //display the icon
-                    Picasso.get().load(url).into(imageView)
+                    //Picasso.get().load(url).into(imageView)
 
                     //bind the data with the views
                     binding.dayOneDescription.text = weatherDescription
@@ -263,5 +274,32 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    private fun setIconImage(iconCode:String, currentWeatherImage:ImageView, isCurrentWeather:Boolean) {
+        //clouds 02 03 04
+        if (iconCode.contains("02") || iconCode.contains("03") || iconCode.contains("04")){
+            currentWeatherImage.setBackgroundResource(R.drawable.clouds)
+        }
+        //clearsky 01
+        else if (iconCode.contains("01d")){
+            currentWeatherImage.setBackgroundResource(R.drawable.sunny)
+        }
+        //clearsky night 01n
+        else if (iconCode.contains("01n") && isCurrentWeather){
+            currentWeatherImage.setBackgroundResource(R.drawable.moon)
+        }
+        //Rain 09 10 11
+        else if (iconCode.contains("09") || iconCode.contains("10") || iconCode.contains("11")){
+            currentWeatherImage.setBackgroundResource(R.drawable.rain)
+        }
+        //snow 13
+        else if (iconCode.contains("13")){
+            currentWeatherImage.setBackgroundResource(R.drawable.snow)
+        }
+        //mist 50
+        else{
+            currentWeatherImage.setBackgroundResource(R.drawable.mist)
+        }
     }
 }
