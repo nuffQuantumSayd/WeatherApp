@@ -114,9 +114,10 @@ class MainActivity : AppCompatActivity() {
 //                            Picasso.get().load(url).into(imageView)
                             setIconImage(dayTwoWeatherIcon, imageView, false)
 
+
                             //load the temp
                             val dayTwoTemp = responseBody.list[i].main.temp.toString()
-                            binding.dayTwoTemp.text = dayTwoTemp
+                            binding.dayTwoTemp.text = dayTwoTemp + "\n" + getDate(responseBody, i)
                             lastIndex = i + 1
                             break
                         }
@@ -133,9 +134,10 @@ class MainActivity : AppCompatActivity() {
 
                             setIconImage(dayThreeWeatherIcon, imageView, false)
 
+
                             //load the temp
                             val dayThreeTemp = responseBody.list[i].main.temp.toString()
-                            binding.dayThreeTemp.text = dayThreeTemp
+                            binding.dayThreeTemp.text = dayThreeTemp + "\n" + getDate(responseBody, i)
                             lastIndex = i + 1
                             break
                         }
@@ -154,7 +156,7 @@ class MainActivity : AppCompatActivity() {
 
                             //load the temp
                             val dayFourTemp = responseBody.list[i].main.temp.toString()
-                            binding.dayFourTemp.text = dayFourTemp
+                            binding.dayFourTemp.text = dayFourTemp + "\n" + getDate(responseBody, i)
                             lastIndex = i + 1
                             break
                         }
@@ -173,7 +175,7 @@ class MainActivity : AppCompatActivity() {
 
                             //load the temp
                             val dayFiveTemp = responseBody.list[i].main.temp.toString()
-                            binding.dayFiveTemp.text = dayFiveTemp
+                            binding.dayFiveTemp.text = dayFiveTemp + "\n" + getDate(responseBody, i)
                             lastIndex = i + 1
                             break
                         }
@@ -192,12 +194,20 @@ class MainActivity : AppCompatActivity() {
 
                             //load the temp
                             val daySixTemp = responseBody.list[i].main.temp.toString()
-                            binding.daySixTemp.text = daySixTemp
+                            binding.daySixTemp.text = daySixTemp + "\n" + getDate(responseBody, i)
                             lastIndex = i + 1
                             break
                         }
                     }
                 }
+            }
+
+            private fun getDate(responseBody: FiveDayForecast, i: Int): String {
+                //get the date
+                var date = responseBody.list[i].dt_txt
+                //modify the date
+                date = date.substring(5, 10)
+                return date
             }
 
             override fun onFailure(call: Call<FiveDayForecast>, t: Throwable) {
